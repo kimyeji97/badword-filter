@@ -1,0 +1,134 @@
+rootProject.name = 'badword-filter'
+
+
+
+dependencyResolutionManagement {
+
+    versionCatalogs {
+        logs {
+            alias('slf4j').to('org.slf4j:slf4j-api:2.0.6')
+            alias('logback').to('ch.qos.logback:logback-classic:1.4.5')
+            alias('logback-core').to('ch.qos.logback:logback-core:1.4.5')
+        }
+
+        libs {
+            alias('lombok').to('org.projectlombok:lombok:1.18.22')
+            alias('ehcache').to('org.ehcache:ehcache:3.10.8')
+            alias('hibernate-validator').to('org.hibernate.validator:hibernate-validator:6.2.0.Final')
+            alias('httpclient').to('org.apache.httpcomponents.client5:httpclient5:5.2.1')
+            alias('dom4j').to('org.dom4j:dom4j:2.1.1')
+            alias('janino').to('org.codehaus.janino:janino:3.1.6')
+            alias('poi').to('org.apache.poi:poi:3.17')
+            alias('poiooxml').to('org.apache.poi:poi-ooxml:3.17')
+            alias('stomp-websocket').to('org.webjars:stomp-websocket:2.3.4')
+            alias('jsoup').to('org.jsoup:jsoup:1.15.4')
+            alias('tika-core').to('org.apache.tika:tika-core:2.7.0')
+            alias('tika-parsers').to('org.apache.tika:tika-parsers:2.7.0')
+            alias('tomcat-embed-jasper').to('org.apache.tomcat.embed:tomcat-embed-jasper:10.1.4')
+
+            alias('jackson-core').to('com.fasterxml.jackson.core:jackson-core:2.12.5')
+            alias('jackson-databind').to('com.fasterxml.jackson.core:jackson-databind:2.12.5')
+            alias('jackson-dataformat-xml').to('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5')
+            alias('jsch').to('com.jcraft:jsch:0.1.55')
+            alias('guava').to('com.google.guava:guava:18.0')
+            alias('gson').to('com.google.code.gson:gson:2.8.9')
+            alias('jsr305').to('com.google.code.findbugs:jsr305:3.0.2')
+
+            alias('validation-api').to('javax.validation:validation-api:2.0.1.Final')
+            alias('jaxb-api').to('javax.xml.bind:jaxb-api:2.3.0')
+            alias('jstl').to('javax.servlet:jstl:1.2')
+
+            alias('persistence-api').to('jakarta.persistence:jakarta.persistence-api:3.1.0')
+            alias('annotation-api').to('jakarta.annotation:jakarta.annotation-api:2.1.1')
+            alias('servlet-api').to('jakarta.servlet:jakarta.servlet-api:6.0.0')
+            alias('servlet.jsp.jstl-api').to('jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0')
+
+            alias('grok').to('io.krakens:java-grok:0.1.9')
+
+            // alias('jwt').to('com.nimbusds:nimbus-jose-jwt:3.10'
+            alias('jwt').to('com.nimbusds:nimbus-jose-jwt:9.30.1') // :9.29
+            // implementation 'com.nimbusds:nimbus-jose-jwt:9.30.1'
+            alias('bcprov').to('org.bouncycastle:bcprov-ext-jdk15to18:1.64')
+            // alias('pem-reader').to('xsc:pem-reader:0.1.0')
+            // alias('starter-keycloak').to('org.keycloak:keycloak-spring-boot-starter:20.0.3')
+            // alias('keycloak-adapter-bom').to('org.keycloak.bom:keycloak-adapter-bom:20.0.3')
+            alias('jasypt').to('com.github.ulisesbocchio:jasypt-spring-boot:3.0.5')
+
+            alias('springdoc-openapi').to('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2')
+            alias('swagger-ui').to('org.webjars:swagger-ui:4.15.5')
+            alias('webjars').to('org.webjars:webjars-locator-jboss-vfs:0.1.0')
+
+
+        }
+
+        keycloak {
+            alias('core').to('org.keycloak:keycloak-core:21.0.1')
+        }
+
+        commons {
+            alias('lang3').to('org.apache.commons:commons-lang3:3.12.0')
+            alias('compress').to('org.apache.commons:commons-compress:1.20')
+            alias('codec').to('commons-codec:commons-codec:1.15')
+            alias('text').to('org.apache.commons:commons-text:1.6')
+            alias('io').to('commons-io:commons-io:2.11.0')
+            alias('net').to('commons-net:commons-net:3.3')
+            alias('beanutils').to('commons-beanutils:commons-beanutils:1.9.4')
+            alias('pool2').to('org.apache.commons:commons-pool2:2.11.1')
+        }
+
+        spring {
+            version('springBootVersion', '3.0.1')
+
+            alias('starter-web').to('org.springframework.boot', 'spring-boot-starter-web').versionRef('springBootVersion')
+            alias('starter-data-jpa').to('org.springframework.boot', 'spring-boot-starter-data-jpa').versionRef('springBootVersion')
+            alias('starter-mail').to('org.springframework.boot', 'spring-boot-starter-mail').versionRef('springBootVersion')
+            alias('starter-test').to('org.springframework.boot', 'spring-boot-starter-test').versionRef('springBootVersion')
+            alias('starter-batch').to('org.springframework.boot', 'spring-boot-starter-batch').versionRef('springBootVersion')
+            alias('starter-web-services').to('org.springframework.boot', 'spring-boot-starter-web-services').versionRef('springBootVersion')
+            alias('starter-aop').to('org.springframework.boot', 'spring-boot-starter-aop').versionRef('springBootVersion')
+            alias('starter-tomcat').to('org.springframework.boot', 'spring-boot-starter-tomcat').versionRef('springBootVersion')
+            alias('starter-security').to('org.springframework.boot', 'spring-boot-starter-security').versionRef('springBootVersion')
+            alias('starter-mybatis').to('org.mybatis.spring.boot', 'mybatis-spring-boot-starter').versionRef('springBootVersion')
+            alias('starter-jdbc').to('org.springframework.boot', 'spring-boot-starter-jdbc').versionRef('springBootVersion')
+            alias('starter-amqp').to('org.springframework.boot', 'spring-boot-starter-amqp').versionRef('springBootVersion')
+            alias('starter-websocket').to('org.springframework.boot', 'spring-boot-starter-websocket').versionRef('springBootVersion')
+            alias('starter-data-redis').to('org.springframework.boot', 'spring-boot-starter-data-redis').versionRef('springBootVersion')
+            alias('starter-quartz').to('org.springframework.boot', 'spring-boot-starter-quartz').versionRef('springBootVersion')
+            alias('starter-actuator').to('org.springframework.boot', 'spring-boot-starter-actuator').versionRef('springBootVersion')
+            alias('starter-thymeleaf').to('org.springframework.boot', 'spring-boot-starter-thymeleaf').versionRef('springBootVersion')
+
+            alias('tx').to('org.springframework:spring-tx:6.0.3')
+            alias('web').to('org.springframework:spring-web:6.0.3')
+            alias('webmvc').to('org.springframework:spring-webmvc:6.0.3')
+            alias('aspects').to('org.springframework:spring-aspects:6.0.3')
+            alias('context').to('org.springframework:spring-context:6.0.3')
+            alias('jdbc').to('org.springframework:spring-jdbc:6.0.3')
+
+
+            alias('security-core').to('org.springframework.security:spring-security-core:6.0.1')
+            alias('security-web').to('org.springframework.security:spring-security-web:6.0.1')
+            alias('security-bom').to('org.springframework.security:spring-security-bom:6.0.1')
+            alias('security-crypto').to('org.springframework.security:spring-security-crypto:6.0.1')
+
+            alias('data-commons').to('org.springframework.data:spring-data-commons:3.0.1')
+            alias('data-redis').to('org.springframework.data:spring-data-redis:3.0.1')
+
+            alias('session-data-redis').to('org.springframework.session:spring-session-data-redis:3.0.0')
+
+            alias('starter-bootstrap').to('org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.3')
+            alias('aws-secrets-manager-config').to('org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE')
+        }
+
+        db {
+            alias('mybatis').to('org.mybatis:mybatis:3.5.7')
+            alias('mybatis-spring').to('org.mybatis:mybatis-spring:2.0.6')
+            alias('postgresql').to('org.postgresql:postgresql:42.3.1')
+            alias('log4j').to('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16')
+        }
+
+        aws {
+            alias('s3').to('software.amazon.awssdk:s3:2.20.24')
+            alias('ec2').to('software.amazon.awssdk:ec2:2.20.24')
+        }
+    }
+}
