@@ -3,7 +3,8 @@ plugins {
 }
 
 group 'com.yjkim.badword'
-version '1.0-SNAPSHOT'
+version '0.1'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -12,13 +13,11 @@ repositories {
 dependencies {
 
     implementation spring.starter.web
-
+    implementation spring.starter.test
     implementation commons.lang3
 
-    implementation libs.lombok
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 }
 
 test {
