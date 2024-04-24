@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "bad-word")
@@ -17,8 +16,7 @@ public class BadWordProperties
     @Setter
     public static class Masking
     {
-        private Boolean enable;
-        private String pattern;
+        private String pattern = "*";
     }
 
     @Getter
@@ -35,7 +33,7 @@ public class BadWordProperties
     @Setter
     public static class StorageSub
     {
-        private Boolean enable;
+        private Boolean enable = false;
         private String[] paths;
         private String[] words;
     }
