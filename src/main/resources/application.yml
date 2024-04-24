@@ -1,0 +1,28 @@
+bad-word:
+
+  # 비속어 마스킹 기능
+  masking:
+    pattern: '*' # 마스킹 문자
+
+  # 비속어 저장소
+  storage:
+    txt: # 텍스트 파일
+      enable: true
+      paths: >
+        classpath*:templates/*.txt
+    excel: # 엑셀 파일
+      enable: false
+      paths: >
+    db: # DB 테이블
+      enable: false
+    text: # 직접 입력
+      enable: true
+      words: >
+        똥
+        , 방구
+        , 바보
+
+  # 기록 (이력 적재 & 집계)
+  record:
+    enable: false
+    stat-cron: '0 1 * * * *'

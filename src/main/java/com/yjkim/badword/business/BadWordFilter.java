@@ -1,29 +1,19 @@
 package com.yjkim.badword.business;
 
+import com.yjkim.badword.config.BadWordProperties;
 import com.yjkim.badword.exceptions.BadWordRequestException;
-import com.yjkim.badword.reader.BadWordFileReader;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 욕설/비속어 필터링 서비스
  */
 @Slf4j
-public class BadWordFilterService implements InitializingBean
+@RequiredArgsConstructor
+public class BadWordFilter
 {
-    @Value("${badword.masking:*}")
-    public String masking;
-    @Value("${badword.paths.txt}")
-    public String[] paths;
-
-    private static Set<String> badWords;
-    private static BadWordFileReader badWordFileReader;
+    private final BadWordProperties badWordProperties;
 
     /**
      * 마스킹 문자 세팅
@@ -32,65 +22,7 @@ public class BadWordFilterService implements InitializingBean
      */
     public void setMaskingLetters (String masking)
     {
-        this.masking = masking;
-    }
-
-    /**
-     * 단어 추가
-     *
-     * @param words 단어
-     * @return 추가여부
-     */
-    public boolean addWords (String words)
-    {
-        return this.addWords(Collections.singletonList(words));
-    }
-
-    /**
-     * 단어 일괄 추가
-     *
-     * @param list 추가할 단어들
-     * @return 추가여부
-     */
-    public boolean addWords (List<String> list)
-    {
-        if (ObjectUtils.isEmpty(list))
-        {
-            return false;
-        }
-
-        return badWords.addAll(list);
-    }
-
-    /**
-     * 단어 삭제
-     *
-     * @param words 단어
-     * @return 삭제여부
-     */
-    public boolean removeWords (String words)
-    {
-        return this.removeWords(Collections.singletonList(words));
-    }
-
-    /**
-     * 단어 일괄 삭제
-     *
-     * @param list 삭제할 단어들
-     * @return 삭제여부
-     */
-    public boolean removeWords (List<String> list)
-    {
-        if (ObjectUtils.isEmpty(list))
-        {
-            return false;
-        }
-
-        for (String s : list)
-        {
-            badWords.remove(s);
-        }
-        return true;
+        badWordProperties.getMasking().setPattern(masking);
     }
 
     /**
@@ -101,15 +33,15 @@ public class BadWordFilterService implements InitializingBean
      */
     public String masking (String text)
     {
-        if (ObjectUtils.isEmpty(badWords))
+        if (ObjectUtils.isEmpty(BadWordLoader.badWords))
         {
             return text;
         }
 
-        String[] words = badWords.stream().filter(text::contains).toArray(String[]::new);
+        String[] words = BadWordLoader.badWords.stream().filter(text::contains).toArray(String[]::new);
         for (String v : words)
         {
-            String sub = masking.repeat(v.length());
+            String sub =badWordProperties.getMasking().getPattern().repeat(v.length());
             text = text.replace(v, sub);
         }
         return text;
@@ -123,7 +55,7 @@ public class BadWordFilterService implements InitializingBean
      */
     public boolean isInclude (String text)
     {
-        if (ObjectUtils.isEmpty(badWords))
+        if (ObjectUtils.isEmpty(BadWordLoader.badWords))
         {
             return false;
         }
@@ -167,11 +99,11 @@ public class BadWordFilterService implements InitializingBean
         {
             throw new BadWordRequestException("text is null.");
         }
-        if (ObjectUtils.isEmpty(badWords))
+        if (ObjectUtils.isEmpty(BadWordLoader.badWords))
         {
             return false;
         }
-        return badWords.stream().anyMatch(text::contains);
+        return BadWordLoader.badWords.stream().anyMatch(text::contains);
     }
 
     /**
@@ -182,7 +114,7 @@ public class BadWordFilterService implements InitializingBean
      */
     private boolean hasBadWordsRmBlank (String text)
     {
-        if (ObjectUtils.isEmpty(badWords))
+        if (ObjectUtils.isEmpty(BadWordLoader.badWords))
         {
             return false;
         }
@@ -197,19 +129,10 @@ public class BadWordFilterService implements InitializingBean
      */
     private boolean hasBadWordsRmSpecial (String text)
     {
-        if (ObjectUtils.isEmpty(badWords))
+        if (ObjectUtils.isEmpty(BadWordLoader.badWords))
         {
             return false;
         }
         return hasBadWordsRaw(text.replaceAll("[^0-9|a-z|^A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]", ""));
-    }
-
-    @Override
-    public void afterPropertiesSet ()
-    {
-        log.info("===== Init BadWordFilterUtils : START =====");
-        badWordFileReader = new BadWordFileReader(paths);
-        badWords = badWordFileReader.readTxtFiles();
-        log.info("===== Init BadWordFilterUtils : END   =====");
     }
 }

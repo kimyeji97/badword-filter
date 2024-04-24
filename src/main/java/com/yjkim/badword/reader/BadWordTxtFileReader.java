@@ -1,7 +1,6 @@
 package com.yjkim.badword.reader;
 
 import com.yjkim.badword.exceptions.BadWordInternalServerException;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
@@ -15,32 +14,40 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * 비속어 파일 Reader
+ * 텍스트 파일 Reader
  */
-@Slf4j
-public class BadWordFileReader
+public class BadWordTxtFileReader implements BadWordReadable
 {
-    private String[] paths;
+    private static final ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+    private final String[] paths;
 
-    private static String path = "classpath*:templates/bad-words.txt";
-    private static ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
-    public BadWordFileReader (String[] paths)
+    public BadWordTxtFileReader (String[] paths)
     {
         this.paths = paths;
     }
 
-    public Set<String> readTxtFiles ()
+    @Override
+    public String getReaderName ()
+    {
+        return "BadWord-TextFileReader";
+    }
+
+    /**
+     * .txt 파일에서 읽어온 비속어
+     *
+     * @return 비속어
+     */
+    public Set<String> read ()
     {
         List<Resource> resources = this.findTxtFiles();
         if (resources.isEmpty())
         {
-            log.info("[BadWord] Not exist file.");
+            this.recordLog("Not exist file.");
             return Collections.emptySet();
         }
 
-        log.info("[BadWord] Start Loading...");
-
+        this.recordLog("Start Loading...");
         Set<String> badWords = new HashSet<>();
         for (Resource resource : resources)
         {
@@ -58,14 +65,13 @@ public class BadWordFileReader
                     badWords.add(line.replace(" ", ""));
                 }
 
-                log.info("[BadWord] {} bad words loaded at {} file.", badWords.size(), resource.getFilename());
+                this.recordLog(String.valueOf(badWords.size()), " bad words loaded at ", resource.getFilename(), " file.");
             } catch (IOException e)
             {
                 throw new BadWordInternalServerException(e);
             }
         }
-
-        log.info("[BadWord] End of loading...");
+        this.recordLog("End of loading...");
 
         return badWords;
     }
@@ -77,15 +83,7 @@ public class BadWordFileReader
      */
     private List<Resource> findTxtFiles ()
     {
-        List<Resource> resources;
-        try
-        {
-            resources = new ArrayList<>(Arrays.stream(resourcePatternResolver.getResources(path)).toList());
-        } catch (IOException ex)
-        {
-            throw new BadWordInternalServerException(ex);
-        }
-
+        List<Resource> resources = new ArrayList<>();
         if (ObjectUtils.isNotEmpty(paths))
         {
             for (String path : paths)
